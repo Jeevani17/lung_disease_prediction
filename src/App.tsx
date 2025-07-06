@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lungs, Activity, AlertTriangle, CheckCircle, BarChart3 } from 'lucide-react';
+import { Settings as Lungs, Activity, AlertTriangle, CheckCircle, BarChart3 } from 'lucide-react';
 import PredictionForm from './components/PredictionForm';
 import ResultDisplay from './components/ResultDisplay';
 import HealthTips from './components/HealthTips';
