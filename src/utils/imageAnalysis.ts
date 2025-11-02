@@ -1,85 +1,100 @@
-import { ImagePredictionResult } from '../types';
+import { LungCancerPredictionResult } from '../types';
 
 // Simulated AI analysis function
-export function analyzeChestXray(imageFile: File): Promise<ImagePredictionResult> {
+export function analyzeLungCancer(imageFile: File): Promise<LungCancerPredictionResult> {
   return new Promise((resolve) => {
     // Simulate processing time
     setTimeout(() => {
-      // Simulate different outcomes based on file name or random selection
+      // Simulate lung cancer detection outcomes
       const outcomes = [
         {
-          riskLevel: 'normal' as const,
-          confidence: 92,
+          hasCancer: false,
+          confidence: 94,
+          riskLevel: 'low' as const,
           findings: [
-            'Clear lung fields with no acute abnormalities',
-            'Normal heart size and mediastinal contours',
-            'No pleural effusion or pneumothorax detected'
+            'No suspicious nodules or masses detected',
+            'Clear lung fields bilaterally',
+            'Normal lung parenchyma pattern',
+            'No signs of malignancy'
           ],
           recommendations: [
-            'Continue regular health maintenance',
-            'Annual chest X-ray screening as recommended by physician',
-            'Maintain healthy lifestyle habits'
-          ]
+            'Continue routine screening as recommended',
+            'Maintain healthy lifestyle',
+            'Annual follow-up chest imaging'
+          ],
+          suspiciousAreas: 0
         },
         {
-          riskLevel: 'pneumonia' as const,
-          confidence: 87,
+          hasCancer: true,
+          confidence: 89,
+          riskLevel: 'high' as const,
           findings: [
-            'Consolidation in right lower lobe consistent with pneumonia',
-            'Increased opacity in affected area',
-            'No signs of pleural effusion'
+            'Suspicious mass in right upper lobe (3.2cm)',
+            'Irregular borders and spiculated margins',
+            'Possible hilar lymphadenopathy',
+            'Features consistent with primary lung malignancy'
           ],
           recommendations: [
-            'Immediate medical consultation required',
-            'Antibiotic treatment may be necessary',
-            'Follow-up chest X-ray in 2-3 weeks',
-            'Monitor symptoms closely'
-          ]
+            'URGENT: Immediate oncology referral required',
+            'CT chest with contrast recommended',
+            'Tissue biopsy for definitive diagnosis',
+            'Staging workup if malignancy confirmed'
+          ],
+          suspiciousAreas: 2
         },
         {
-          riskLevel: 'covid-19' as const,
-          confidence: 78,
+          hasCancer: true,
+          confidence: 76,
+          riskLevel: 'moderate' as const,
           findings: [
-            'Bilateral ground-glass opacities',
-            'Peripheral distribution pattern',
-            'Findings consistent with viral pneumonia'
+            'Small nodule in left lower lobe (1.8cm)',
+            'Well-defined borders, possibly benign',
+            'No obvious metastatic disease',
+            'Requires further evaluation'
           ],
           recommendations: [
-            'COVID-19 testing recommended',
-            'Isolation precautions advised',
-            'Monitor oxygen saturation',
-            'Seek medical attention if symptoms worsen'
-          ]
+            'Pulmonology consultation recommended',
+            'High-resolution CT scan needed',
+            'Consider PET scan for characterization',
+            'Follow-up in 3 months if benign features'
+          ],
+          suspiciousAreas: 1
         },
         {
-          riskLevel: 'tuberculosis' as const,
-          confidence: 85,
+          hasCancer: false,
+          confidence: 82,
+          riskLevel: 'low' as const,
           findings: [
-            'Upper lobe infiltrates with cavitation',
-            'Hilar lymphadenopathy present',
-            'Pattern suggestive of pulmonary tuberculosis'
+            'Small calcified granuloma in right middle lobe',
+            'Likely benign, consistent with old infection',
+            'No active disease process',
+            'Stable appearance compared to prior imaging'
           ],
           recommendations: [
-            'Urgent referral to infectious disease specialist',
-            'Sputum culture and TB testing required',
-            'Contact tracing may be necessary',
-            'Isolation precautions until ruled out'
-          ]
+            'Routine follow-up sufficient',
+            'Annual screening chest X-ray',
+            'No immediate intervention needed',
+            'Monitor for any changes'
+          ],
+          suspiciousAreas: 0
         },
         {
-          riskLevel: 'other-abnormality' as const,
-          confidence: 73,
+          hasCancer: true,
+          confidence: 91,
+          riskLevel: 'very-high' as const,
           findings: [
-            'Nodular opacity in left upper lobe',
-            'Size approximately 2.5cm',
-            'Further evaluation needed to characterize'
+            'Large mass in left upper lobe (5.1cm)',
+            'Irregular, lobulated contours',
+            'Mediastinal lymphadenopathy present',
+            'Possible pleural involvement'
           ],
           recommendations: [
-            'CT scan of chest recommended',
-            'Pulmonology consultation advised',
-            'Compare with previous imaging if available',
-            'Follow-up in 3-6 months if benign'
-          ]
+            'URGENT: Immediate oncology referral',
+            'Staging CT chest/abdomen/pelvis',
+            'Brain MRI for staging',
+            'Multidisciplinary team evaluation'
+          ],
+          suspiciousAreas: 3
         }
       ];
 
@@ -87,25 +102,29 @@ export function analyzeChestXray(imageFile: File): Promise<ImagePredictionResult
       const fileName = imageFile.name.toLowerCase();
       let selectedOutcome;
       
-      if (fileName.includes('normal') || fileName.includes('healthy')) {
+      if (fileName.includes('normal') || fileName.includes('healthy') || fileName.includes('clear')) {
         selectedOutcome = outcomes[0];
-      } else if (fileName.includes('pneumonia')) {
+      } else if (fileName.includes('cancer') || fileName.includes('malignant') || fileName.includes('tumor')) {
         selectedOutcome = outcomes[1];
-      } else if (fileName.includes('covid') || fileName.includes('corona')) {
+      } else if (fileName.includes('nodule') || fileName.includes('mass')) {
         selectedOutcome = outcomes[2];
-      } else if (fileName.includes('tb') || fileName.includes('tuberculosis')) {
+      } else if (fileName.includes('benign') || fileName.includes('granuloma')) {
         selectedOutcome = outcomes[3];
+      } else if (fileName.includes('large') || fileName.includes('advanced')) {
+        selectedOutcome = outcomes[4];
       } else {
         // Random selection for demo purposes
         selectedOutcome = outcomes[Math.floor(Math.random() * outcomes.length)];
       }
 
-      const result: ImagePredictionResult = {
+      const result: LungCancerPredictionResult = {
         ...selectedOutcome,
         technicalDetails: {
+          ...selectedOutcome,
           imageQuality: getImageQuality(imageFile.size),
           processingTime: Math.floor(Math.random() * 3000) + 1500, // 1.5-4.5 seconds
-          modelVersion: 'ChestXNet-v2.1.0'
+          modelVersion: 'LungCancerNet-v3.2.1',
+          suspiciousAreas: selectedOutcome.suspiciousAreas
         }
       };
 
@@ -123,9 +142,10 @@ function getImageQuality(fileSize: number): 'excellent' | 'good' | 'fair' | 'poo
 
 // Processing stages for loading indicator
 export const processingStages = [
-  'Preprocessing image...',
-  'Extracting features...',
-  'Running AI models...',
-  'Analyzing patterns...',
-  'Generating report...'
+  'Preprocessing chest X-ray...',
+  'Detecting lung regions...',
+  'Scanning for abnormalities...',
+  'Analyzing suspicious areas...',
+  'Calculating cancer probability...',
+  'Generating diagnostic report...'
 ];

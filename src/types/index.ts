@@ -1,12 +1,14 @@
-export interface ImagePredictionResult {
-  riskLevel: 'normal' | 'pneumonia' | 'tuberculosis' | 'lung-cancer' | 'covid-19' | 'other-abnormality';
+export interface LungCancerPredictionResult {
+  hasCancer: boolean;
   confidence: number;
+  riskLevel: 'low' | 'moderate' | 'high' | 'very-high';
   findings: string[];
   recommendations: string[];
   technicalDetails: {
     imageQuality: 'excellent' | 'good' | 'fair' | 'poor';
     processingTime: number;
     modelVersion: string;
+    suspiciousAreas: number;
   };
 }
 

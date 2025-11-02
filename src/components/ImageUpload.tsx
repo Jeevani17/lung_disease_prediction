@@ -80,6 +80,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload, isLoading, onR
           <ImageIcon className="h-6 w-6 text-blue-600" />
         </div>
         <h2 className="text-xl font-semibold text-gray-900">Chest X-Ray Analysis</h2>
+        <h2 className="text-xl font-semibold text-gray-900">Lung Cancer Detection</h2>
       </div>
 
       {!uploadedImage ? (
@@ -109,11 +110,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload, isLoading, onR
             </div>
             
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                Upload Chest X-Ray Image
+              <h4 className="text-sm font-semibold text-amber-800 mb-1">AI Screening Tool</h4>
+                Upload Chest X-Ray for Cancer Detection
               </h3>
-              <p className="text-gray-600 mb-4">
-                Drag and drop your chest X-ray image here, or click to browse
+                This AI tool is designed to assist in lung cancer screening. It is not a replacement for professional 
+                medical diagnosis. Always consult with qualified healthcare professionals for definitive diagnosis and treatment.
               </p>
             </div>
 
@@ -130,7 +131,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload, isLoading, onR
             <div className="text-xs text-gray-500 space-y-1">
               <p>Supported formats: JPEG, PNG, WEBP</p>
               <p>Maximum file size: 10MB</p>
-              <p>Recommended: High-resolution chest X-ray images</p>
+              <p>Best results: High-quality PA chest X-rays</p>
             </div>
           </div>
         </div>
@@ -173,11 +174,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload, isLoading, onR
       <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
         <div className="flex items-start space-x-2">
           <AlertCircle className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
-          <div>
-            <h4 className="text-sm font-semibold text-amber-800 mb-1">Important Notice</h4>
-            <p className="text-xs text-amber-700">
-              This AI analysis is for educational and research purposes only. It should not be used as a substitute 
-              for professional medical diagnosis. Always consult with qualified healthcare professionals for medical advice.
+              <li>• Persistent cough lasting more than 3 weeks</li>
+              <li>• Unexplained weight loss or fatigue</li>
+            <p className="text-red-800 mb-3">Consult a healthcare professional immediately if you have:</p>
+              <li>• Chest pain or shortness of breath</li>
+              <li>• History of smoking or lung disease</li>
             </p>
           </div>
         </div>

@@ -4,11 +4,11 @@ import ImageUpload from './components/ImageUpload';
 import ImageResultDisplay from './components/ImageResultDisplay';
 import HealthTips from './components/HealthTips';
 import Statistics from './components/Statistics';
-import { ImagePredictionResult } from './types';
-import { analyzeChestXray, processingStages } from './utils/imageAnalysis';
+import { LungCancerPredictionResult } from './types';
+import { analyzeLungCancer, processingStages } from './utils/imageAnalysis';
 
 function App() {
-  const [result, setResult] = useState<ImagePredictionResult | null>(null);
+  const [result, setResult] = useState<LungCancerPredictionResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'analyze' | 'stats' | 'tips'>('analyze');
   const [processingStage, setProcessingStage] = useState<string>('');
@@ -24,7 +24,7 @@ function App() {
     }
     
     try {
-      const analysis = await analyzeChestXray(file);
+      const analysis = await analyzeLungCancer(file);
       setResult(analysis);
     } catch (error) {
       console.error('Analysis failed:', error);
@@ -50,8 +50,8 @@ function App() {
                 <Lungs className="h-8 w-8 text-blue-600" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">LungCare AI</h1>
-                <p className="text-sm text-gray-600">AI-Powered Chest X-Ray Analysis</p>
+                <h1 className="text-2xl font-bold text-gray-900">LungCancer AI</h1>
+                <p className="text-sm text-gray-600">AI-Powered Lung Cancer Detection</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -76,7 +76,7 @@ function App() {
             >
               <div className="flex items-center space-x-2">
                 <ImageIcon className="h-4 w-4" />
-                <span>X-Ray Analysis</span>
+                <span>Cancer Detection</span>
               </div>
             </button>
             <button
@@ -139,7 +139,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
             <p className="text-gray-600 text-sm">
-              © 2025 LungCare AI. This AI diagnostic tool is for educational and research purposes only and should not replace professional medical diagnosis.
+              © 2025 LungCancer AI. This screening tool is for educational purposes only. Always consult healthcare professionals for medical diagnosis and treatment.
             </p>
           </div>
         </div>
