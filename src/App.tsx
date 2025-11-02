@@ -1,30 +1,42 @@
 import React, { useState } from 'react';
-import { Settings as Lungs, Activity, AlertTriangle, CheckCircle, BarChart3 } from 'lucide-react';
-import PredictionForm from './components/PredictionForm';
-import ResultDisplay from './components/ResultDisplay';
+import { Settings as Lungs, Activity, Image as ImageIcon, CheckCircle, BarChart3 } from 'lucide-react';
+import ImageUpload from './components/ImageUpload';
+import ImageResultDisplay from './components/ImageResultDisplay';
 import HealthTips from './components/HealthTips';
 import Statistics from './components/Statistics';
-import { PredictionResult, PatientData } from './types';
-import { predictLungDisease } from './utils/prediction';
+import { ImagePredictionResult } from './types';
+import { analyzeChestXray, processingStages } from './utils/imageAnalysis';
 
 function App() {
-  const [result, setResult] = useState<PredictionResult | null>(null);
+  const [result, setResult] = useState<ImagePredictionResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'predict' | 'stats' | 'tips'>('predict');
+  const [activeTab, setActiveTab] = useState<'analyze' | 'stats' | 'tips'>('analyze');
+  const [processingStage, setProcessingStage] = useState<string>('');
 
-  const handlePrediction = async (data: PatientData) => {
+  const handleImageUpload = async (file: File) => {
     setIsLoading(true);
+    setResult(null);
     
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // Simulate processing stages
+    for (let i = 0; i < processingStages.length; i++) {
+      setProcessingStage(processingStages[i]);
+      await new Promise(resolve => setTimeout(resolve, 600));
+    }
     
-    const prediction = predictLungDisease(data);
-    setResult(prediction);
+    try {
+      const analysis = await analyzeChestXray(file);
+      setResult(analysis);
+    } catch (error) {
+      console.error('Analysis failed:', error);
+    }
+    
     setIsLoading(false);
+    setProcessingStage('');
   };
 
-  const resetPrediction = () => {
+  const resetAnalysis = () => {
     setResult(null);
+    setProcessingStage('');
   };
 
   return (
@@ -39,7 +51,7 @@ function App() {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">LungCare AI</h1>
-                <p className="text-sm text-gray-600">Advanced Lung Disease Prediction</p>
+                <p className="text-sm text-gray-600">AI-Powered Chest X-Ray Analysis</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -55,16 +67,16 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8">
             <button
-              onClick={() => setActiveTab('predict')}
+              onClick={() => setActiveTab('analyze')}
               className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
-                activeTab === 'predict'
+                activeTab === 'analyze'
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
               <div className="flex items-center space-x-2">
-                <AlertTriangle className="h-4 w-4" />
-                <span>Prediction</span>
+                <ImageIcon className="h-4 w-4" />
+                <span>X-Ray Analysis</span>
               </div>
             </button>
             <button
@@ -99,19 +111,20 @@ function App() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {activeTab === 'predict' && (
+        {activeTab === 'analyze' && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div>
-              <PredictionForm 
-                onSubmit={handlePrediction} 
+              <ImageUpload 
+                onImageUpload={handleImageUpload} 
                 isLoading={isLoading}
-                onReset={resetPrediction}
+                onReset={resetAnalysis}
               />
             </div>
             <div>
-              <ResultDisplay 
+              <ImageResultDisplay 
                 result={result} 
                 isLoading={isLoading}
+                processingStage={processingStage}
               />
             </div>
           </div>
@@ -126,7 +139,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
             <p className="text-gray-600 text-sm">
-              © 2025 LungCare AI. This tool is for educational purposes only and should not replace professional medical advice.
+              © 2025 LungCare AI. This AI diagnostic tool is for educational and research purposes only and should not replace professional medical diagnosis.
             </p>
           </div>
         </div>
