@@ -80,7 +80,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload, isLoading, onR
           <ImageIcon className="h-6 w-6 text-blue-600" />
         </div>
         <h2 className="text-xl font-semibold text-gray-900">Chest X-Ray Analysis</h2>
-        <h2 className="text-xl font-semibold text-gray-900">Lung Cancer Detection</h2>
       </div>
 
       {!uploadedImage ? (
@@ -110,13 +109,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload, isLoading, onR
             </div>
             
             <div>
-              <h4 className="text-sm font-semibold text-amber-800 mb-1">AI Screening Tool</h4>
               <p className="text-lg font-medium text-gray-900 mb-2">
-                Upload Chest X-Ray for Cancer Detection
+                Upload Chest X-Ray Image
               </p>
               <p className="text-sm text-gray-600">
-                This AI tool is designed to assist in lung cancer screening. It is not a replacement for professional 
-                medical diagnosis. Always consult with qualified healthcare professionals for definitive diagnosis and treatment.
+                Drag and drop your chest X-ray image here, or click to browse
               </p>
             </div>
 
@@ -176,11 +173,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload, isLoading, onR
       <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
         <div className="flex items-start space-x-2">
           <AlertCircle className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
-              <li>• Persistent cough lasting more than 3 weeks</li>
-              <li>• Unexplained weight loss or fatigue</li>
-            <p className="text-red-800 mb-3">Consult a healthcare professional immediately if you have:</p>
-              <li>• Chest pain or shortness of breath</li>
-              <li>• History of smoking or lung disease</li>
+          <div>
+            <h4 className="text-sm font-semibold text-amber-800 mb-1">Medical Disclaimer</h4>
+            <p className="text-xs text-amber-800">
+              This AI analysis is for educational purposes only and should not replace professional medical diagnosis. 
+              Always consult with qualified healthcare professionals for proper medical evaluation and treatment.
             </p>
           </div>
         </div>
