@@ -111,8 +111,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload, isLoading, onR
             
             <div>
               <h4 className="text-sm font-semibold text-amber-800 mb-1">AI Screening Tool</h4>
+              <p className="text-lg font-medium text-gray-900 mb-2">
                 Upload Chest X-Ray for Cancer Detection
-              </h3>
+              </p>
+              <p className="text-sm text-gray-600">
                 This AI tool is designed to assist in lung cancer screening. It is not a replacement for professional 
                 medical diagnosis. Always consult with qualified healthcare professionals for definitive diagnosis and treatment.
               </p>
